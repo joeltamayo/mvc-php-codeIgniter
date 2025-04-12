@@ -2,7 +2,7 @@
     <title>Editar Usuario</title>
 </head>
 
-<?= $this->include('header'); ?>
+<?= $this->include('partials/header'); ?>
 
 <div class="container bg-white shadow-lg rounded p-4 mt-5 min-vh-50 w-75">
     <h2 class="mt-2">Editar usuario</h2>
@@ -25,4 +25,4 @@
     </form>
 </div>
 
-<?= $this->include('footer'); ?>
+<?= $this->include('partials/footer'); ?>

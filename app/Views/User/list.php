@@ -2,7 +2,7 @@
     <title>Lista de Usuarios</title>
 </head>
 
-<?= $this->include('header'); ?>
+<?= $this->include('partials/header'); ?>
 
     <div class="container bg-white shadow-lg rounded p-4 mt-5 min-vh-50 w-75">
     <h2 class="mb-2">Usuarios</h2>
@@ -33,4 +33,4 @@
         </table>
     </div>
 
-<?= $this->include('footer'); ?>
+    <?= $this->include('partials/footer'); ?>

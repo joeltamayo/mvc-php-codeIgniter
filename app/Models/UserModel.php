@@ -10,7 +10,7 @@ class UserModel extends Model
     protected $primaryKey = 'id'; // Clave primaria
 
     // Definir los campos que pueden ser insertados o actualizados
-    protected $allowedFields = ['username', 'email', 'password'];
+    protected $allowedFields = ['username', 'email', 'password', 'role'];
 
     // Configuración para la protección de datos
     protected $useTimestamps = true; // Usar timestamp para created_at y updated_at
