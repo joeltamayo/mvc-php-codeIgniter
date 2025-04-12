@@ -5,11 +5,6 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-//$routes->GET('publication', 'Publication::index');
-//$routes->POST('/publication/add', 'Publication::add');
-//$routes->match(['GET', 'POST'], 'publication/edit/(:segment)', 'Publication::edit/$1');
-//$routes->GET('/publication/delete/(:segment)', 'Publication::delete/$1');
-
 
 $routes->get('/user/create', 'User::create'); // Ruta para el formulario de creación de usuario
 $routes->post('/user/create', 'User::create'); // Ruta para enviar los datos del formulario de creación
@@ -29,3 +24,6 @@ $routes->post('auth/login', 'Auth::login'); // Ruta para enviar los datos del fo
 $routes->get('auth/logout', 'Auth::logout'); // Ruta para cerrar la sesion
 
 
+$routes->get('gallery', 'Gallery::index'); // Ruta para mostrar la galeria
+$routes->match(['GET', 'POST'], 'gallery/upload', 'Gallery::upload'); // Ruta para subir imagenes y el formulario de subida
+$routes->get('gallery/delete/(:num)', 'Gallery::delete/$1'); // Ruta para eliminar una imagen, pasando el ID
