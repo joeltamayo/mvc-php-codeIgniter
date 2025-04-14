@@ -9,9 +9,9 @@ class Gallery extends BaseController
     // Método para listar imágenes del usuario actual
     public function index()
     {
-        // Verifica que el usuario esté logueado
-        if (!session()->get('logged_in')) {
-            return redirect()->to(base_url('auth/login'));
+        // Verifica que el usuario esté logueado y que no sea admin
+        if (!session()->get('logged_in') || session()->get('role') === 'admin') {
+            return redirect()->to(base_url('user/list'));
         }
 
         $userId = session()->get('user_id');
@@ -48,6 +48,7 @@ class Gallery extends BaseController
                     . '|max_size[image,2048]'
             ];
 
+            // Validar que el archivo sea valido
             if (!$this->validate($rules)) {
                 // Redirige con error
                 return redirect()->back()
@@ -59,7 +60,7 @@ class Gallery extends BaseController
             if ($file->isValid() && !$file->hasMoved()) {
                 // Genera un nombre aleatorio para evitar conflictos
                 $newName = $file->getRandomName();
-                // Define la ruta destino (por ejemplo, en public/uploads/gallery)
+                // Define la ruta destino
                 $file->move(WRITEPATH . '../public/uploads/gallery', $newName);
 
                 // Guarda información en la base de datos

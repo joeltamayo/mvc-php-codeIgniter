@@ -19,9 +19,15 @@ $routes->get('/user/delete/(:num)', 'User::delete/$1'); // Ruta para eliminar un
 $routes->get('user/profile', 'User::profile'); // Ruta para abrir el perfil del usuario
 
 
-$routes->get('auth/login', 'Auth::login');  // Ruta para el mormulario del login
+
+$routes->get('auth/login', 'Auth::login');  // Ruta para el formulario del login
 $routes->post('auth/login', 'Auth::login'); // Ruta para enviar los datos del formulario de login
+
 $routes->get('auth/logout', 'Auth::logout'); // Ruta para cerrar la sesion
+
+$routes->get('auth/register', 'Auth::register');
+$routes->post('auth/register', 'Auth::register');
+
 
 
 $routes->get('gallery', 'Gallery::index'); // Ruta para mostrar la galeria

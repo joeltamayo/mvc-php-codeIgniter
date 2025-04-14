@@ -24,9 +24,7 @@ class User extends BaseController
             $existingUser = $userModel->where('email', $email)->first();
             if ($existingUser) {
                 // Redirigir de vuelta con un mensaje de error flash
-                return redirect()->back()
-                    ->withInput()
-                    ->with('error', 'El correo ya está registrado.');
+                return redirect()->back()->withInput()->with('error', 'El correo ya está registrado.');
             }
 
             // Preparar los datos del nuevo usuario
@@ -73,12 +71,8 @@ class User extends BaseController
                 'id' => $id,
                 'username' => $this->request->getPost('username'),
                 'email' => $this->request->getPost('email'),
+                'password' => $this->request->getPost('password'),
             ];
-
-            // Si se proporcionó una nueva contraseña, se agrega
-            if ($this->request->getPost('password')) {
-                $data['password'] = $this->request->getPost('password');
-            }
 
             // Actualiza los datos en la base de datos
             $userModel->save($data);
@@ -111,13 +105,47 @@ class User extends BaseController
     // Eliminar usuario
     public function delete($id)
     {
+        // Verificar que el rol del usuario logueado sea 'admin'
         if (session()->get('role') !== 'admin') {
             return redirect()->to(base_url('user/profile'));
         }
 
         $userModel = new UserModel();
-        $userModel->delete($id); // Eliminar el usuario por ID
-        return redirect()->to(base_url('user/list')); // Redirige al listado
+        $galleryModel = new \App\Models\GalleryModel();
+
+        // Buscar el usuario que se desea eliminar
+        $user = $userModel->find($id);
+        if (!$user) {
+            return redirect()->back()->with('error', 'Usuario no encontrado.');
+        }
+
+        // Si el usuario a eliminar es admin, verifica que no sea el único admin
+        if ($user['role'] === 'admin') {
+            // Cuenta todos los usuarios con rol admin
+            $adminCount = $userModel->where('role', 'admin')->countAllResults();
+            if ($adminCount <= 1) {
+                return redirect()->back()->with('error', 'No se puede eliminar la última cuenta de administrador.');
+            }
+        }
+
+        // Obtener las imágenes del usuario
+        $userImages = $galleryModel->where('user_id', $id)->findAll();
+
+        // Eliminar los archivos físicos
+        foreach ($userImages as $img) {
+            $filePath = WRITEPATH . '../public/' . $img['filename'];
+            if (file_exists($filePath)) {
+                unlink($filePath); // Elimina el archivo físico
+            }
+        }
+
+        // Eliminar los registros de imágenes del usuario
+        $galleryModel->where('user_id', $id)->delete();
+
+        // Eliminar el usuario
+        $userModel->delete($id);
+
+        return redirect()->to(base_url('user/list'))->with('success', 'Usuario eliminado correctamente.');
     }
 
     public function profile()

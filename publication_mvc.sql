@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-04-2025 a las 22:19:38
+-- Tiempo de generación: 13-04-2025 a las 00:16:37
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,6 +20,29 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `publication_mvc`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `gallery`
+--
+
+CREATE TABLE `gallery` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `filename` varchar(255) NOT NULL,
+  `uploaded_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `ordering` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `gallery`
+--
+
+INSERT INTO `gallery` (`id`, `user_id`, `filename`, `uploaded_at`, `ordering`) VALUES
+(5, 12, 'uploads/gallery/1744491430_68876c87cc98d068d185.jpg', '2025-04-13 02:57:10', 0),
+(10, 9, 'uploads/gallery/1744494227_81cae82006cc7d91866e.png', '2025-04-13 03:43:47', 0),
+(11, 9, 'uploads/gallery/1744494316_08aff668dec84e474b9d.jpg', '2025-04-13 03:45:16', 0);
 
 -- --------------------------------------------------------
 
@@ -94,6 +117,12 @@ INSERT INTO `users` (`id`, `username`, `email`, `password`, `created_at`, `updat
 --
 
 --
+-- Indices de la tabla `gallery`
+--
+ALTER TABLE `gallery`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `publication`
 --
 ALTER TABLE `publication`
@@ -114,6 +143,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `gallery`
+--
+ALTER TABLE `gallery`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `publication`
